@@ -27,4 +27,10 @@ public class Game {
 
     @Builder.Default
     private boolean active = true;
+
+    @Transient
+    private String imageUrl;
+
+    @Transient
+    private Double rating;
 }

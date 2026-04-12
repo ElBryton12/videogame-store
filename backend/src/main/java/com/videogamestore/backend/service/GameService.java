@@ -6,24 +6,32 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class GameService {
 
     private final GameRepository gameRepository;
+    private final RawgService rawgService;
 
     public List<Game> getAll() {
-        return gameRepository.findByActiveTrue();
+        List<Game> games = gameRepository.findByActiveTrue();
+        games.forEach(this::enrichWithRawg);
+        return games;
     }
 
     public Game getById(Long id) {
-        return gameRepository.findById(id)
+        Game game = gameRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Juego no encontrado"));
+        enrichWithRawg(game);
+        return game;
     }
 
     public List<Game> search(String name) {
-        return gameRepository.findByNameContainingIgnoreCaseAndActiveTrue(name);
+        List<Game> games = gameRepository.findByNameContainingIgnoreCaseAndActiveTrue(name);
+        games.forEach(this::enrichWithRawg);
+        return games;
     }
 
     public Game create(Game game) {
@@ -40,8 +48,15 @@ public class GameService {
     }
 
     public void delete(Long id) {
-        Game game = getById(id);
-        game.setActive(false);       // soft delete
+        Game game = gameRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Juego no encontrado"));
+        game.setActive(false);
         gameRepository.save(game);
+    }
+
+    private void enrichWithRawg(Game game) {
+        Map<String, Object> rawg = rawgService.searchGame(game.getName());
+        game.setImageUrl((String) rawg.get("imageUrl"));
+        game.setRating(((Number) rawg.get("rating")).doubleValue());
     }
 }

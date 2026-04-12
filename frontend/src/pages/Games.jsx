@@ -90,10 +90,12 @@ export default function Games() {
               <button style={styles.saveBtn} onClick={handleSave}>
                 {editId ? 'Actualizar' : 'Guardar'}
               </button>
-              {editId && <button style={styles.cancelBtn}
-                onClick={() => { setEditId(null); setForm({ name:'', genre:'', price:'', description:'' }) }}>
-                Cancelar
-              </button>}
+              {editId && (
+                <button style={styles.cancelBtn}
+                  onClick={() => { setEditId(null); setForm({ name:'', genre:'', price:'', description:'' }) }}>
+                  Cancelar
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -102,17 +104,31 @@ export default function Games() {
         <div style={styles.grid}>
           {games.map(game => (
             <div key={game.id} style={styles.card}>
-              <div style={styles.cardGenre}>{game.genre}</div>
-              <h3 style={styles.cardTitle}>{game.name}</h3>
-              <p style={styles.cardDesc}>{game.description}</p>
-              <div style={styles.cardFooter}>
-                <span style={styles.price}>${game.price}</span>
-                {isAdmin && (
-                  <div style={{ display:'flex', gap:'0.5rem' }}>
-                    <button style={styles.editBtn} onClick={() => handleEdit(game)}>Editar</button>
-                    <button style={styles.deleteBtn} onClick={() => handleDelete(game.id)}>Eliminar</button>
-                  </div>
-                )}
+              {/* Portada RAWG */}
+              {game.imageUrl ? (
+                <img src={game.imageUrl} alt={game.name} style={styles.cardImg} />
+              ) : (
+                <div style={styles.cardImgPlaceholder}>🎮</div>
+              )}
+
+              <div style={styles.cardBody}>
+                <div style={styles.cardHeader}>
+                  <span style={styles.cardGenre}>{game.genre}</span>
+                  {game.rating > 0 && (
+                    <span style={styles.rating}>⭐ {Number(game.rating).toFixed(1)}</span>
+                  )}
+                </div>
+                <h3 style={styles.cardTitle}>{game.name}</h3>
+                <p style={styles.cardDesc}>{game.description}</p>
+                <div style={styles.cardFooter}>
+                  <span style={styles.price}>${game.price}</span>
+                  {isAdmin && (
+                    <div style={{ display:'flex', gap:'0.5rem' }}>
+                      <button style={styles.editBtn} onClick={() => handleEdit(game)}>Editar</button>
+                      <button style={styles.deleteBtn} onClick={() => handleDelete(game.id)}>Eliminar</button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))}
@@ -141,10 +157,15 @@ const styles = {
   saveBtn: { padding:'0.6rem 1.5rem', background:'#e94560', color:'#fff', border:'none', borderRadius:'8px', cursor:'pointer' },
   cancelBtn: { padding:'0.6rem 1.5rem', background:'#333', color:'#fff', border:'none', borderRadius:'8px', cursor:'pointer' },
   grid: { display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(280px, 1fr))', gap:'1rem' },
-  card: { background:'#1a1a2e', borderRadius:'12px', padding:'1.5rem', border:'1px solid #2a2a3e' },
-  cardGenre: { fontSize:'0.75rem', color:'#e94560', textTransform:'uppercase', marginBottom:'0.5rem', fontWeight:'bold' },
+  card: { background:'#1a1a2e', borderRadius:'12px', border:'1px solid #2a2a3e', overflow:'hidden' },
+  cardImg: { width:'100%', height:'160px', objectFit:'cover' },
+  cardImgPlaceholder: { width:'100%', height:'160px', background:'#16213e', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'3rem' },
+  cardBody: { padding:'1rem' },
+  cardHeader: { display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'0.5rem' },
+  cardGenre: { fontSize:'0.75rem', color:'#e94560', textTransform:'uppercase', fontWeight:'bold' },
+  rating: { fontSize:'0.8rem', color:'#ffd700' },
   cardTitle: { margin:'0 0 0.5rem', fontSize:'1.1rem' },
-  cardDesc: { color:'#aaa', fontSize:'0.85rem', margin:'0 0 1rem' },
+  cardDesc: { color:'#aaa', fontSize:'0.85rem', margin:'0 0 1rem', lineHeight:'1.4' },
   cardFooter: { display:'flex', justifyContent:'space-between', alignItems:'center' },
   price: { color:'#4ecca3', fontWeight:'bold', fontSize:'1.1rem' },
   editBtn: { padding:'0.3rem 0.75rem', background:'#16213e', color:'#fff', border:'1px solid #555', borderRadius:'6px', cursor:'pointer', fontSize:'0.8rem' },
