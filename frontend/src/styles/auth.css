@@ -1,0 +1,94 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg0);
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 31px, var(--border) 31px, var(--border) 32px),
+    repeating-linear-gradient(90deg, transparent, transparent 31px, var(--border) 31px, var(--border) 32px);
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.auth-card {
+  background: var(--bg1);
+  border: 2px solid var(--pink);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--border);
+  pointer-events: none;
+}
+
+.auth-title {
+  font-family: var(--pixel);
+  font-size: 0.9rem;
+  color: var(--pink);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  animation: neon-pulse 2s ease-in-out infinite;
+}
+
+.auth-subtitle {
+  font-family: var(--pixel);
+  font-size: 0.5rem;
+  color: var(--cyan);
+  text-align: center;
+  letter-spacing: 3px;
+  margin-bottom: 2rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pixel-input {
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  color: var(--text);
+  font-family: var(--pixel);
+  font-size: 0.55rem;
+  padding: 0.85rem 1rem;
+  width: 100%;
+  outline: none;
+  letter-spacing: 1px;
+  border-radius: 0;
+  transition: border-color 0.2s;
+}
+
+.pixel-input:focus { border-color: var(--cyan); }
+.pixel-input::placeholder { color: var(--muted); }
+
+.auth-error {
+  font-family: var(--pixel);
+  font-size: 0.45rem;
+  color: var(--pink);
+  text-align: center;
+  padding: 0.5rem;
+  border: 1px solid var(--pink);
+  background: rgba(255,45,120,0.1);
+  letter-spacing: 1px;
+}
+
+.auth-link {
+  font-family: var(--pixel);
+  font-size: 0.45rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 1rem;
+  letter-spacing: 1px;
+}
+
+.auth-link a { color: var(--cyan); text-decoration: none; }
+.auth-link a:hover { color: var(--yellow); }

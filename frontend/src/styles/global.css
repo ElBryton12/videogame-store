@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --pink:    #ff2d78;
+  --cyan:    #00e5ff;
+  --yellow:  #ffe600;
+  --green:   #39ff14;
+  --bg0:     #05050f;
+  --bg1:     #0a0a1a;
+  --bg2:     #0f0f28;
+  --bg3:     #1a1a3a;
+  --border:  #2a2a4a;
+  --text:    #e0e0ff;
+  --muted:   #6666aa;
+  --pixel:   'Press Start 2P', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg0);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  image-rendering: pixelated;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg1); }
+::-webkit-scrollbar-thumb { background: var(--pink); }
+
+::selection { background: var(--pink); color: #fff; }
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes scanline {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 8px; }
+}
+
+@keyframes neon-pulse {
+  0%, 100% { text-shadow: 0 0 4px currentColor; }
+  50% { text-shadow: 0 0 12px currentColor, 0 0 24px currentColor; }
+}
+
+.pixel-font { font-family: var(--pixel); }
+.neon-pink  { color: var(--pink);   animation: neon-pulse 2s ease-in-out infinite; }
+.neon-cyan  { color: var(--cyan);   animation: neon-pulse 2s ease-in-out infinite 0.5s; }
+.neon-yellow{ color: var(--yellow); animation: neon-pulse 2s ease-in-out infinite 1s; }
+.blink      { animation: blink 1s step-end infinite; }
